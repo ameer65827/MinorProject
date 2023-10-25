@@ -1,0 +1,10 @@
+CREATE TABLE IF NOT EXISTS "bookss"(
+  "ISBN10" TEXT,
+  "ISBN13" TEXT,
+  "Title" TEXT,
+  "Author" TEXT,
+  "Cover" TEXT,
+  "Publisher" TEXT,
+  "Pages" TEXT
+);
+current output mode: csv
