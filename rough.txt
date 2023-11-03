@@ -1,2 +1,3 @@
 new
 second line
+third
