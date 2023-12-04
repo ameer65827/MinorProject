@@ -1,23 +1,48 @@
 import tkinter as tk
 
+root = tk.Tk()
+root.title("Library Management System")
+
+
+data_list = [
+    "Apple", "Banana", "Orange", "Grapes", "Strawberry", "Watermelon",
+    "Pineapple", "Mango", "Peach", "Kiwi", "Apricot", "Pear", "Plum",
+    "Cherry", "Blueberry", "Raspberry", "Blackberry", "Lemon", "Lime",
+    "Cranberry", "Coconut", "Pomegranate", "Fig", "Guava", "Papaya",
+    "Lychee", "Passion Fruit", "Star Fruit", "Dragon Fruit", "Persimmon",
+    "Durian", "Avocado", "Jackfruit", "Kumquat", "Nectarine", "Tangerine",
+    "Clementine", "Rambutan", "Melon", "Honeydew", "Cantaloupe", "Soursop",
+    "Barberry", "Currant", "Gooseberry", "Elderberry", "Mulberry", "Quince"
+]
+
 def on_button_click():
     label.config(text="Button clicked!")
 
-number_list = [23, 56, 12, 78, 45, 90, 34, 67, 31, 55]
+
 
 def perform_search():
     try:
-        search_number = int(entry.get())  # Get the number from the entry field
-        if search_number in number_list:
-            result_label.config(text=f"Number {search_number} found!")
+        search_word = (entry.get()).lower()  # Get data entry field
+        similar  = []
+        for word in data_list:
+            if search_word in word.lower():
+                similar.append(word)
+                
+        if similar:
+            result_label.config(text=f"{search_word} found !")
+
+            #showing result
+            listbox.delete(0, tk.END)
+            for result in similar:
+                listbox.insert(tk.END, result)
         else:
-            result_label.config(text=f"Number {search_number} not found")
+            result_label.config(text=f"{search_word} not found")
+            listbox.delete(0, tk.END)
     except ValueError:
-        result_label.config(text="Please enter a valid number")
+        result_label.config(text="Not Valid")
 
 # Create the main window
-root = tk.Tk()
-root.title("Library Management System")
+
 
 #frame to hold widget
 frame = tk.Frame()
@@ -27,7 +52,7 @@ root.geometry("1100x720")
 
 # Create a label
 label = tk.Label(root, text="Welcome to Our Library")
-label.pack(pady=10)
+label.pack(pady=20)
 
 #search
 entry = tk.Entry(frame, width=50)
@@ -41,16 +66,12 @@ search_button.pack(side=tk.LEFT, padx=5, pady=10)
 
 #create a label to show search result
 result_label = tk.Label(root, text="")
-result_label.pack(pady=40)
-
+result_label.pack(pady=70)
 
 
 # Create a Listbox widget
 listbox = tk.Listbox(root, width=100, height= 24)  # Width and height can be adjusted
-listbox.pack(padx=10, pady=20)
-
-
-
+listbox.pack(padx=10, pady=10)
 
 
 but1 = tk.Button(root, text="close", command=root.destroy, bd=4)
@@ -59,7 +80,10 @@ but1.pack(pady=5)
 
 
 #place frame
-frame.place(relx=0.5, rely=0.08, anchor=tk.CENTER)
+frame.place(relx=0.5, rely=0.15, anchor=tk.CENTER)
+
+for item in data_list:
+    listbox.insert(tk.END, item)
 
 # Run the Tkinter main loop
 root.mainloop()
