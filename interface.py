@@ -20,7 +20,7 @@ def on_button_click():
 
 
 
-def perform_search():
+def perform_search(event=None):
     try:
         search_word = (entry.get()).lower()  # Get data entry field
         similar  = []
@@ -62,6 +62,8 @@ entry.pack(side=tk.LEFT, padx=5, pady=5)
 # Create a search button
 search_button = tk.Button(frame, text="search", command=perform_search, bd=2)
 search_button.pack(side=tk.LEFT, padx=5, pady=10)
+
+entry.bind('<Return>', perform_search)
 
 
 #create a label to show search result
