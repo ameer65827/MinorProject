@@ -1,4 +1,4 @@
-# MinorProject - Library Management Project 
+# MinorProject - Library Management System 
 SQL - sqlite3
 python
 tkinter for GUI
