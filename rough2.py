@@ -1,41 +1,25 @@
 import tkinter as tk
 
-def open_popup(event):
-    selected_item = listbox.get(listbox.curselection())
-    popup = tk.Toplevel(root)
-    popup.title("Popup Window")
-    popup.geometry("300x200")
-    popup.attributes('-topmost', 'true')  # Make the popup window remain on top
-
-    label = tk.Label(popup, text=f"Selected: {selected_item}")
-    label.pack(padx=20, pady=30)
-
 root = tk.Tk()
-root.title("Main Window")
+root.title("Centered Listbox with Scrollbar")
+root.geometry("400x300")
 
+# Create a frame to center the Listbox
 frame = tk.Frame(root)
-frame.pack(padx=50, pady=20)
+frame.pack(expand=True)
 
-# Header label
-header_label = tk.Label(frame, text="ID              Description")
-header_label.pack(side=tk.TOP, fill=tk.BOTH)
+# Create a vertical scrollbar
+scrollbar = tk.Scrollbar(frame, orient=tk.VERTICAL)
+scrollbar.pack(side=tk.RIGHT, fill=tk.Y)
 
-listbox = tk.Listbox(frame, width=40, height=5)
-listbox.pack()
+# Create a Listbox and attach the scrollbar
+listbox = tk.Listbox(frame, yscrollcommand=scrollbar.set, width=20, height=8)
+listbox.pack(padx=10, pady=10)
 
-# Sample data with two columns
-data = [
-    ("1. Item 1", "Description 1"),
-    ("2. Item 2", "Description 2"),
-    ("3. Item 3", "Description 3"),
-    ("4. Item 4", "Description 4"),
-]
+scrollbar.config(command=listbox.yview)
 
-# Insert formatted data into the listbox
-for item in data:
-    listbox.insert(tk.END, f"{item[0]:<15} {item[1]}")
-
-# Bind function to listbox selection event
-listbox.bind("<Double-Button-1>", open_popup)
+# Inserting sample data into the Listbox
+for i in range(20):
+    listbox.insert(tk.END, f"Item {i+1}")
 
 root.mainloop()

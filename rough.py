@@ -1,60 +1,25 @@
-# import tkinter as tk
-
-# def open_popup(event):
-#     selected_item = listbox.get(listbox.curselection())
-#     popup = tk.Toplevel(root)
-#     popup.title("Popup Window")
-#     popup.geometry("300x200")
-#     popup.attributes('-topmost', 'true')  # Make the popup window remain on top
-
-#     label = tk.Label(popup, text=f"Selected: {selected_item}")
-#     label.pack(padx=20, pady=30)
-
-# root = tk.Tk()
-# root.title("Main Window")
-
-# listbox = tk.Listbox(root, width=30, height=5)
-# listbox.pack(padx=50, pady=20)
-
-# # Insert sample items into the listbox
-# for i in range(10):
-#     listbox.insert(tk.END, f"Item {i + 1}")
-
-# # Bind function to listbox selection event
-# listbox.bind("<Double-Button-1>", open_popup)
-
-# root.mainloop()
 import tkinter as tk
 
-def open_popup(event):
-    selected_item = listbox.get(listbox.curselection())
-    popup = tk.Toplevel(root)
-    popup.title("Popup Window")
-    popup.geometry("300x200")
-    popup.attributes('-topmost', 'true')  # Make the popup window remain on top
-
-    label = tk.Label(popup, text=f"Selected: {selected_item}")
-    label.pack(padx=20, pady=30)
-
 root = tk.Tk()
-root.title("Main Window")
 
-listbox = tk.Listbox(root, width=40, height=5)
-listbox.pack(padx=50, pady=20)
+# Create a vertical scrollbar
+v_scrollbar = tk.Scrollbar(root, orient=tk.VERTICAL)
+v_scrollbar.pack(side=tk.RIGHT, fill=tk.Y)
 
-# Sample data with two columns
-data = [
-    ("1. Item 1", "Description 1"),
-    ("2. Item 2", "Description 2"),
-    ("3. Item 3", "Description 3"),
-    ("4. Item 4", "Description 4"),
-]
+# Create a horizontal scrollbar
+h_scrollbar = tk.Scrollbar(root, orient=tk.HORIZONTAL)
+h_scrollbar.pack(side=tk.BOTTOM, fill=tk.X)
 
-# Insert formatted data into the listbox
-for item in data:
-    listbox.insert(tk.END, f"{item[0]:<15} {item[1]}")
+# Create a Listbox
+listbox = tk.Listbox(root, width=20, height=1, xscrollcommand=h_scrollbar.set, yscrollcommand=v_scrollbar.set)
+listbox.pack()
 
-# Bind function to listbox selection event
-listbox.bind("<Double-Button-1>", open_popup)
+# Link the scrollbars to the Listbox
+h_scrollbar.config(command=listbox.xview)
+v_scrollbar.config(command=listbox.yview)
+
+# Insert items into the Listbox (for demonstration)
+for i in range(1, 21):
+    listbox.insert(tk.END, f"Item {i}")
 
 root.mainloop()

@@ -3,8 +3,14 @@ import backend
 
 root = tk.Tk()
 root.title("Library Management System")
-root.geometry("1100x720")
+screen_width = root.winfo_screenwidth()
+screen_height = root.winfo_screenheight()
+root.geometry(f"{screen_width}x{screen_height}")
 
+def insert_into_listbox(lst):
+    for row in lst:
+        sp = (8 - len(str(row[0]))) # calculate space for numbers with different no. of digits
+        listbox.insert(tk.END, f"{row[0]:<{sp}}  |   {row[1]}")
 
 def close_system():
     root.destroy()
@@ -22,8 +28,7 @@ def perform_search(event=None):
 
             #showing result
             listbox.delete(0, tk.END)
-            for result in similar:
-                listbox.insert(tk.END, result)
+            insert_into_listbox(similar)
         else:
             # result_label.config(text=f"{search_word} not found")
             listbox.delete(0, tk.END)
@@ -31,15 +36,12 @@ def perform_search(event=None):
         # result_label.config(text="Not Valid")
         pass
 
-# Create the main window
-
 
 #frame to hold widget
 frame = tk.Frame()
 frame.pack(fill=tk.BOTH)
-
 #place frame
-frame.place(relx=0.5, rely=0.13, anchor=tk.CENTER)
+frame.place(relx=0.5, rely=0.135, anchor=tk.CENTER)
 
 
 # Create a label
@@ -57,23 +59,20 @@ search_button.pack(side=tk.LEFT, padx=5, pady=10)
 
 entry.bind('<Return>', perform_search)
 
-
+#SCROLLBAR for listbox
+scrollbar = tk.Scrollbar(root, orient=tk.VERTICAL)
+scrollbar.place(relx=0.885, rely=0.55, anchor=tk.CENTER, height=555, width=18)
 # Create a Listbox widget
-listbox = tk.Listbox(root, width=100, height= 24)  # Width and height can be adjusted
-listbox.pack(padx=10, pady=100)
+listbox = tk.Listbox(root, width=120, height= 27, yscrollcommand=scrollbar.set, font=('Arial', 13))  # Width and height can be adjusted
+listbox.place(relx=0.5, rely=0.55, anchor=tk.CENTER)
+scrollbar.config(command=listbox.yview)
+insert_into_listbox(data_list)
 
-for item in data_list:
-    listbox.insert(tk.END, item)
 
 
 
 but1 = tk.Button(root, text="close", command=close_system, bd=4)
-# but1.place(relx=0.5, rely=0.9, anchor=tk.CENTER)
-but1.place(relx=0.5, rely=0.86)
-
-
-
-
+but1.place(relx=0.5, rely=0.9)
 
 
 # Run the Tkinter main loop
