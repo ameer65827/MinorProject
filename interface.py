@@ -24,32 +24,36 @@ def perform_search(event=None):
         similar  = backend.check_availabiliy(search_word)
                 
         if similar:
-            # result_label.config(text=f"{search_word} found !")
+            result_label.config(text=f"{len(similar)} results found !")
 
             #showing result
             listbox.delete(0, tk.END)
             insert_into_listbox(similar)
         else:
-            # result_label.config(text=f"{search_word} not found")
+            result_label.config(text="0 results found")
             listbox.delete(0, tk.END)
     except ValueError:
-        # result_label.config(text="Not Valid")
         pass
+
 
 
 #frame to hold widget
 frame = tk.Frame()
 frame.pack(fill=tk.BOTH)
 #place frame
-frame.place(relx=0.5, rely=0.135, anchor=tk.CENTER)
+frame.place(relx=0.45, rely=0.135, anchor=tk.CENTER)
 
 
 # Create a label
 label = tk.Label(root, text="Welcome to Our Library")
 label.pack(pady=10)
+#label to show result type
+ln = len(data_list)
+result_label = tk.Label(frame, text=f'{ln} books available')
+result_label.pack(side=tk.BOTTOM)
 
 #search
-entry = tk.Entry(frame, width=50)
+entry = tk.Entry(frame, width=83)
 entry.pack(side=tk.LEFT, padx=5, pady=5)
 
 
@@ -61,10 +65,10 @@ entry.bind('<Return>', perform_search)
 
 #SCROLLBAR for listbox
 scrollbar = tk.Scrollbar(root, orient=tk.VERTICAL)
-scrollbar.place(relx=0.885, rely=0.55, anchor=tk.CENTER, height=555, width=18)
+scrollbar.place(relx=0.9, rely=0.55, anchor=tk.CENTER, height=555, width=18)
 # Create a Listbox widget
-listbox = tk.Listbox(root, width=120, height= 27, yscrollcommand=scrollbar.set, font=('Arial', 13))  # Width and height can be adjusted
-listbox.place(relx=0.5, rely=0.55, anchor=tk.CENTER)
+listbox = tk.Listbox(root, width=100, height= 26, yscrollcommand=scrollbar.set, font=('Arial', 13))  # Width and height can be adjusted
+listbox.place(relx=0.53, rely=0.55, anchor=tk.CENTER)
 scrollbar.config(command=listbox.yview)
 insert_into_listbox(data_list)
 
