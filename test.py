@@ -1,12 +1,20 @@
-import csv
+import tkinter as tk
 
-# Open the CSV file
-with open('DATA/books.csv', 'r') as file:
-    # Create a DictReader object
-    csv_reader = csv.DictReader(file)
-    
-    # Iterate through each row
-    for row in csv_reader:
-        print(row)
-        # Access each column by its header
-          # Replace 'column1', 'column2' with your actual column names
+def single_click(event):
+    selected_item = listbox.get(listbox.curselection())  # Get the selected item
+    print(f"Single-clicked: {selected_item}")
+
+root = tk.Tk()
+
+# Create a listbox
+listbox = tk.Listbox(root)
+listbox.pack()
+
+# Insert items into the listbox (just an example)
+for item in range(1, 11):
+    listbox.insert(tk.END, f"Item {item}")
+
+# Bind a function to the single-click event
+listbox.bind("<Button-1>", single_click)  # Single-click event
+
+root.mainloop()

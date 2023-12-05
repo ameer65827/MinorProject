@@ -7,18 +7,20 @@ cur = conn.cursor()
 cur.execute('''CREATE TABLE IF NOT EXISTS booksTB (
                   ID INTEGER PRIMARY KEY,
                   Title TEXT,
-                  Author TEXT
+                  Author TEXT,
+                  Genre TEXT
                 )'''
             )
 
 
-with open('DATA/books.csv', 'r') as file:
+with open('DATA/books1.csv', 'r') as file:
     csv_reader = csv.reader(file)
     next(csv_reader)
 
 
     for row in csv_reader:
-        cur.execute('INSERT INTO booksTB (Title, Author) VALUES (? , ?)', (row[0], row[1]))
+        print(row)
+        cur.execute('INSERT INTO booksTB (Title, Author, Genre) VALUES (? , ?, ?)', (row[0], row[1], row[2]))
     
 
 conn.commit()
