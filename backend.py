@@ -3,7 +3,7 @@ conn = sqlite3.connect('DATA/booksDB.db')
 cur = conn.cursor()
 
 def all_books():
-    cur.execute('SELECT ID, Title FROM booksTB LIMIT 150 offset 5')
+    cur.execute('SELECT ID, Title FROM booksTB LIMIT 1000')
     return [a for a in cur.fetchall()]
 
 

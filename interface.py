@@ -73,10 +73,8 @@ scrollbar.config(command=listbox.yview)
 insert_into_listbox(data_list)
 
 
-
-
-but1 = tk.Button(root, text="close", command=close_system, bd=4)
-but1.place(relx=0.5, rely=0.9)
+close_button = tk.Button(root, text="close", command=close_system, bd=4, height=2, width=8)
+close_button.place(relx=0.5, rely=0.9)
 
 
 # Run the Tkinter main loop
