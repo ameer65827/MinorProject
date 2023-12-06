@@ -16,14 +16,14 @@ cur.execute('''CREATE TABLE IF NOT EXISTS booksTB (
                 title TEXT,
                 author TEXT,
                 genre TEXT,
-                publisher
+                publisher TEXT,
                 Stocks INTEGER
                 )'''
             )
 cur.execute(''' CREATE TABLE IF NOT EXISTS Customer (
             book_id INTEGER,
             customer_name TEXT,
-            FOREGN KEY(book_id) REFERENCES booksTB
+            FOREIGN KEY(book_id) REFERENCES booksTB(id)
 )''')
 
 
@@ -34,8 +34,8 @@ with open('DATA/books1.csv', 'r') as file:
 
     for row in csv_reader:
 
-        cur.execute('INSERT INTO booksTB (title, author, genre, stocks) VALUES (? , ?, ?, ?)', (row[0], row[1], row[2]), random.randint(0,10))
-        bkid = cur.lastrowid()
+        cur.execute('INSERT INTO booksTB (title, author, genre, publisher, stocks) VALUES (? , ?, ?, ? ,?)', (row[0], row[1], row[2], row[4], random.randint(0,10)))
+        bkid = cur.lastrowid
         print(bkid)
 
         
