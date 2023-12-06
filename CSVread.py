@@ -12,7 +12,6 @@ conn = sqlite3.connect('DATA/booksDB.db')
 cur = conn.cursor()
 
 
-
 cur.execute('''CREATE TABLE IF NOT EXISTS booksTB (
                 id INTEGER PRIMARY KEY,
                 title TEXT,
@@ -22,6 +21,7 @@ cur.execute('''CREATE TABLE IF NOT EXISTS booksTB (
                 Stock INTEGER
                 )'''
             )
+
 cur.execute(''' CREATE TABLE IF NOT EXISTS customer (
             book_id INTEGER,
             customer_name TEXT,
@@ -37,8 +37,7 @@ with open('DATA/books1.csv', 'r') as file:
     for row in csv_reader:
 
         cur.execute('INSERT INTO booksTB (title, author, genre, publisher, stock) VALUES (? , ?, ?, ? ,?)', (row[0], row[1], row[2], row[4], random.randint(0,10)))
-        bkid = cur.lastrowid
-        print(bkid)
+
 
         
 

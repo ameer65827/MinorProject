@@ -8,28 +8,37 @@ screen_width = root.winfo_screenwidth()
 screen_height = root.winfo_screenheight()
 root.geometry(f"{screen_width}x{screen_height}")
 
-def insert_into_listbox(lst):
 
+def show_book_details(event = None):
+    global text_box
+    item = listbox.curselection()
+    if not item:
+        text_box.delete('1.0', tk.END)
+        return None
+    text_box.delete('1.0', tk.END)
     
+    book_info = backend.get_book_info((item[0] + 1))
+    
+    details = [
+        ("Title:", book_info[1]),
+        ("Author:", book_info[2]),
+        ("Publisher:", book_info[3]),
+        ("Reference id:", book_info[0] + 2753)
+     
+       # Add more book details here
+    ]
+
+    # Inserting book details into the text box in columns
+    for detail, value in details:
+        text_box.insert(tk.END, f"{detail:<20}{value}\n\n")
+
+
+def insert_into_listbox(lst):
     for row in lst:
-        sp = 8 - len(str(row[0]))  # Calculate space for numbers with different number of digits
+        nm = row[0]+2753
+        sp = 10 - len(str(nm))  # Calculate space for numbers with different number of digits
         bk_padding = '_' * (65 - len(row[1]))
-        listbox.insert(tk.END, f"{row[0]:<{sp}} | {row[1]}{bk_padding} {row[2]}")
-
-
-def item_selected(event=None):
-    try:
-        new_window.destroy()
-        time.sleep(0.1)
-    except:
-        pass
-    select = (listbox.get(listbox.curselection()))
-    new_window = tk.Toplevel(root)
-    new_window.title('Book details')
-    new_window.geometry("800x400+500+200")
-    new_window_label = tk.Label(new_window, text = select)
-    new_window_label.pack()
-
+        listbox.insert(tk.END, f"{nm:<{sp}} | {row[1]}{bk_padding} {row[2]}")
 
 
 def close_system():
@@ -47,11 +56,11 @@ def perform_search(event=None):
             result_label.config(text=f"{len(similar)} results found !")
 
             #showing result
-            listbox.delete(0, tk.END)
+            listbox.delete('1.0', tk.END)
             insert_into_listbox(similar)
         else:
             result_label.config(text="0 results found")
-            listbox.delete(0, tk.END)
+            listbox.delete('1.0', tk.END)
     except ValueError:
         pass
 
@@ -61,7 +70,7 @@ def perform_search(event=None):
 frame = tk.Frame()
 frame.pack(fill=tk.BOTH)
 #place frame
-frame.place(relx=0.475, rely=0.135, anchor=tk.CENTER)
+frame.place(relx=0.525, rely=0.135, anchor=tk.CENTER)
 
 
 # Create a label
@@ -85,7 +94,7 @@ entry.bind('<Return>', perform_search)
 
 #header for list box
 header = tk.LabelFrame(root)
-header.place(relx=0.532, rely=0.206, anchor=tk.CENTER)
+header.place(relx=0.582, rely=0.206, anchor=tk.CENTER)
 
 header_label = tk.Label(header, text=f"ID{'':<5}|   Title {'':>95}          Genre", width=92, font=('Arial', 13), anchor=tk.W)
 header_label.pack()
@@ -94,23 +103,42 @@ header_label.pack()
 
 #SCROLLBAR for listbox
 scrollbar = tk.Scrollbar(root, orient=tk.VERTICAL)
-scrollbar.place(relx=0.9, rely=0.55, anchor=tk.CENTER, height=555, width=18)
+scrollbar.place(relx=0.88, rely=0.55, anchor=tk.CENTER, height=555, width=18)
 # Create a Listbox widget
 listbox = tk.Listbox(root, width=92, height= 26, yscrollcommand=scrollbar.set, font=('Arial', 13))  # Width and height can be adjusted
-listbox.place(relx=0.53, rely=0.55, anchor=tk.CENTER)
+listbox.place(relx=0.58, rely=0.55, anchor=tk.CENTER)
 scrollbar.config(command=listbox.yview)
 insert_into_listbox(data_list)
 
 #selection
-listbox.bind("<Return>", item_selected)
-listbox.bind("<Button-1>", item_selected)
-
-
-
+listbox.bind("<Button-1>", show_book_details )
+listbox.bind("<<ListboxSelect>>", show_book_details )
 
 
 close_button = tk.Button(root, text="close", command=close_system, bd=4, height=2, width=8)
 close_button.place(relx=0.5, rely=0.9)
+
+
+
+
+
+#BOOK DETAILS FRAME
+details_win = tk.Frame(root, relief=tk.SOLID, borderwidth=4)
+details_win.place(relx=0.145, rely=0.3, height=400, width=400, anchor=tk.N)
+
+det_head = tk.LabelFrame(details_win)
+det_head.pack()
+det_head_label = tk.Label(det_head, text="BOOK details", width=60)
+det_head_label.pack()
+
+#details
+text_box = tk.Text(details_win)
+text_box.pack()
+
+
+
+
+
 
 
 # Run the Tkinter main loop
