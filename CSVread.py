@@ -11,6 +11,15 @@ if os.path.exists('DATA/booksDB.db'):
 conn = sqlite3.connect('DATA/booksDB.db')
 cur = conn.cursor()
 
+cur.execute('''CREATE TABLE IF NOT EXISTS booksTB_temp (
+                id INTEGER PRIMARY KEY,
+                title TEXT,
+                author TEXT,
+                genre TEXT,
+                publisher TEXT,
+                Stock INTEGER
+                )'''
+            )
 
 cur.execute('''CREATE TABLE IF NOT EXISTS booksTB (
                 id INTEGER PRIMARY KEY,
@@ -35,11 +44,16 @@ with open('DATA/books1.csv', 'r') as file:
 
 
     for row in csv_reader:
-
         cur.execute('INSERT INTO booksTB (title, author, genre, publisher, stock) VALUES (? , ?, ?, ? ,?)', (row[0], row[1], row[2], row[4], random.randint(0,10)))
 
+cur.execute('''
+    INSERT INTO booksTB (title, author, genre, publisher, Stock)
+    SELECT title, author, genre, publisher, Stock
+    FROM booksTB_temp
+    ORDER BY title;
+''')
 
-        
+cur.execute('DROP TABLE booksTB_temp')
 
 conn.commit()
 conn.close()

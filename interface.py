@@ -12,17 +12,24 @@ root.geometry(f"{screen_width}x{screen_height}")
 def show_book_details(event = None):
     global text_box
     item = listbox.curselection()
+
     if not item:
         text_box.delete('1.0', tk.END)
         return None
+    items = listbox.get(item[0])
+    items_no = int(items.split()[0]) - 2753
+
     text_box.delete('1.0', tk.END)
+
     
-    book_info = backend.get_book_info((item[0] + 1))
+    book_info = backend.get_book_info(items_no)
     
     details = [
         ("Title:", book_info[1]),
         ("Author:", book_info[2]),
-        ("Publisher:", book_info[3]),
+        ("genre:", book_info[3]),
+        ("Publisher:", book_info[4]),
+        ("Stock:", book_info[5]),
         ("Reference id:", book_info[0] + 2753)
      
        # Add more book details here
@@ -30,6 +37,7 @@ def show_book_details(event = None):
 
     # Inserting book details into the text box in columns
     for detail, value in details:
+
         text_box.insert(tk.END, f"{detail:<20}{value}\n\n")
 
 
@@ -56,11 +64,11 @@ def perform_search(event=None):
             result_label.config(text=f"{len(similar)} results found !")
 
             #showing result
-            listbox.delete('1.0', tk.END)
+            listbox.delete(0, tk.END)
             insert_into_listbox(similar)
         else:
             result_label.config(text="0 results found")
-            listbox.delete('1.0', tk.END)
+            listbox.delete(0, tk.END)
     except ValueError:
         pass
 
@@ -134,10 +142,6 @@ det_head_label.pack()
 #details
 text_box = tk.Text(details_win)
 text_box.pack()
-
-
-
-
 
 
 
