@@ -3,6 +3,8 @@ import sqlite3
 import random
 import os
 
+# !!!! CAUTION !!!!
+# !!Execution this code again will delele the old TABLES
 if os.path.exists('DATA/booksDB.db'):
     os.remove('DATA/booksDB.db')
 
