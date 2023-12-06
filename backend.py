@@ -13,18 +13,15 @@ def check_availabiliy(book):
     cur.execute('SELECT id, title, genre FROM booksTB where Title LIKE ?', ('%' + book + '%',))
     return [results for results in cur.fetchall()]
 
-def borrow_book(book):
+def borrow_book(book, cust_name):
     cur.execute("SELECT stock FROM booksTB WHERE title = (?)", book)
     out = cur.fetchone
     id, stock = (out[0], out[4])
 
-    if not stock:
-        return "Out Of Stock"
-    #in stock
-    else:
-        #decrease stock
-        cur.execute("UPDATE booksTB SET stock = stock - 1 WHERE id = (?)", id)
-        return id
+    #decrease stock and add customer data
+    cur.execute("UPDATE booksTB SET stock = stock - 1 WHERE id = (?)", id)
+    cur.execute('INSERT INTO customer VALUES (?, ?)', (id, cust_name))
+    return id
 
 
 
